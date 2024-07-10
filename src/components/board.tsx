@@ -34,22 +34,26 @@ export default function Board() {
         break;
       } else {
         if (playerxSpot.length == 5 && playeroSpot.length == 4) {
-          if (winningPatterns[index].every((x) => playerxSpot.includes(x))) {
-            alert("Player X wins!");
-            reset();
-            setTurnX(true);
-            break;
-          } else {
-            alert("its a tie");
-            setTiles(defaultState);
-            reset();
-            break;
-          }
+          let i = 1;
+          do {
+            if (winningPatterns[index].every((x) => playerxSpot.includes(x))) {
+              alert("Player X wins!");
+              reset();
+              break;
+            } else if (i == winningPatterns.length) {
+              alert("It's a tie!");
+              reset();
+              break;
+            }
+
+            i++;
+            console.log(i);
+          } while (i <= winningPatterns.length);
         }
       }
-      console.log("hit");
     }
   }
+
   const [playerxSpot, setPlayerxSpot] = useState<string[]>([]);
   const [playeroSpot, setPlayeroSpot] = useState<string[]>([]);
 
