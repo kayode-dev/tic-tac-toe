@@ -21,39 +21,27 @@ export default function Board() {
     }
   };
 
-  function checkWin() {
+  const checkWin = () => {
     for (let index = 0; index < winningPatterns.length; index++) {
       if (winningPatterns[index].every((x) => playerxSpot.includes(x))) {
         alert("Player X wins!");
         reset();
-        setTurnX(true);
         break;
       } else if (winningPatterns[index].every((x) => playeroSpot.includes(x))) {
         alert("Player O wins!");
         reset();
         break;
-      } else {
-        if (playerxSpot.length == 5 && playeroSpot.length == 4) {
-          let i = 1;
-          do {
-            if (winningPatterns[index].every((x) => playerxSpot.includes(x))) {
-              alert("Player X wins!");
-              reset();
-              break;
-            } else if (i == winningPatterns.length) {
-              alert("It's a tie!");
-              reset();
-              break;
-            }
-
-            i++;
-            console.log(i);
-          } while (i <= winningPatterns.length);
-        }
+      } else if (
+        index == 7 &&
+        playerxSpot.length == 5 &&
+        winningPatterns[index].every((x) => playerxSpot.includes(x)) == false
+      ) {
+        alert("It's a tie");
+        reset();
+        break;
       }
     }
-  }
-
+  };
   const [playerxSpot, setPlayerxSpot] = useState<string[]>([]);
   const [playeroSpot, setPlayeroSpot] = useState<string[]>([]);
 
@@ -100,8 +88,8 @@ export default function Board() {
     }, 300);
   }, [playeroSpot, playerxSpot]);
   return (
-    <div>
-      <div className="p-4 bg-teal-500 rounded-2xl grid grid-cols-3 gap-5">
+    <div className="flex flex-col gap-6 w-full items-center">
+      <div className="p-4 bg-teal-500 rounded-2xl grid grid-cols-3 gap-5 w-max">
         {tiles.map((rowTiles, row) =>
           rowTiles.map((tile, col) => (
             <Tile
@@ -114,7 +102,7 @@ export default function Board() {
           ))
         )}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center w-full px-5 text-lg font-medium md:w-1/2">
         <div>Player 1: X</div>
         <div>Player 2: O</div>
       </div>
